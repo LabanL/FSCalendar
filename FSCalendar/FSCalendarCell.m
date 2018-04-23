@@ -64,6 +64,13 @@
     [self.contentView addSubview:label];
     self.subtitleLabel = label;
     
+    label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor redColor];
+    [self.contentView addSubview:label];
+    self.eventCountLabel = label;
+    
     shapeLayer = [CAShapeLayer layer];
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
     shapeLayer.borderWidth = 1.0;
@@ -127,6 +134,20 @@
                                        self.contentView.fs_width,
                                        floor(self.contentView.fs_height*5.0/6.0)
                                        );
+    }
+    
+    if(_numberOfEvents){
+        _eventCountLabel.hidden = NO;
+        CGFloat eventCountHeight = self.eventCountLabel.font.lineHeight;
+        CGFloat eventCountWidth = self.contentView.fs_width/3.0 < eventCountHeight ? eventCountHeight : self.contentView.fs_width/3.0;
+        CGFloat circleSize = eventCountWidth > eventCountHeight ? eventCountWidth : eventCountHeight;
+        _eventCountLabel.frame = CGRectMake(self.contentView.fs_width-circleSize, 0, circleSize, circleSize);
+        
+        _eventCountLabel.layer.cornerRadius = _eventCountLabel.fs_width/2.0;
+        _eventCountLabel.clipsToBounds = YES;
+        _eventCountLabel.text = [NSString stringWithFormat:@"%ld", _numberOfEvents];
+    }else{
+        _eventCountLabel.hidden = YES;
     }
     
     _imageView.frame = CGRectMake(self.preferredImageOffset.x, self.preferredImageOffset.y, self.contentView.fs_width, self.contentView.fs_height);
@@ -215,6 +236,23 @@
         }
     }
     
+    if(_numberOfEvents){
+        textColor = self.calendar.appearance.eventCountColor;
+        if(![textColor isEqual:_eventCountLabel.textColor]){
+            _eventCountLabel.textColor = textColor;
+        }
+        
+        textColor = self.calendar.appearance.eventCountBackgroundColor;
+        if(![textColor isEqual:_eventCountLabel.backgroundColor]){
+            _eventCountLabel.backgroundColor = textColor;
+        }
+        
+        titleFont = self.calendar.appearance.eventCountFont;
+        if(![titleFont isEqual:_eventCountLabel.font]) {
+            _eventCountLabel.font = titleFont;
+        }
+    }
+    
     UIColor *borderColor = self.colorForCellBorder;
     UIColor *fillColor = self.colorForCellFill;
     
@@ -254,7 +292,12 @@
     
     _eventIndicator.numberOfEvents = self.numberOfEvents;
     _eventIndicator.color = self.colorsForEvents;
-
+    
+    if(self.calendar.appearance.eventStyle == FSCalendarEventCountStyle){
+        _eventIndicator.hidden = YES;
+    }else{
+        _eventCountLabel.hidden = YES;
+    }
 }
 
 - (UIColor *)colorForCurrentStateInDictionary:(NSDictionary *)dictionary
@@ -346,6 +389,7 @@ OFFSET_PROPERTY(preferredTitleOffset, PreferredTitleOffset, _appearance.titleOff
 OFFSET_PROPERTY(preferredSubtitleOffset, PreferredSubtitleOffset, _appearance.subtitleOffset);
 OFFSET_PROPERTY(preferredImageOffset, PreferredImageOffset, _appearance.imageOffset);
 OFFSET_PROPERTY(preferredEventOffset, PreferredEventOffset, _appearance.eventOffset);
+OFFSET_PROPERTY(preferredEventCountOffset, PreferredEventCountOffset, _appearance.eventCountOffset);
 
 #undef OFFSET_PROPERTY
 

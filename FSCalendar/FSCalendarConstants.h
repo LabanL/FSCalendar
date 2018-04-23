@@ -24,6 +24,7 @@ CG_EXTERN CGFloat const FSCalendarDefaultBounceAnimationDuration;
 CG_EXTERN CGFloat const FSCalendarStandardRowHeight;
 CG_EXTERN CGFloat const FSCalendarStandardTitleTextSize;
 CG_EXTERN CGFloat const FSCalendarStandardSubtitleTextSize;
+CG_EXTERN CGFloat const FSCalendarStandardEventCountTextSize;
 CG_EXTERN CGFloat const FSCalendarStandardWeekdayTextSize;
 CG_EXTERN CGFloat const FSCalendarStandardHeaderTextSize;
 CG_EXTERN CGFloat const FSCalendarMaximumEventDotDiameter;

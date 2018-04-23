@@ -32,6 +32,7 @@
         
         _titleFont = [UIFont systemFontOfSize:FSCalendarStandardTitleTextSize];
         _subtitleFont = [UIFont systemFontOfSize:FSCalendarStandardSubtitleTextSize];
+        _eventCountFont = [UIFont systemFontOfSize:FSCalendarStandardEventCountTextSize];
         _weekdayFont = [UIFont systemFontOfSize:FSCalendarStandardWeekdayTextSize];
         _headerTitleFont = [UIFont systemFontOfSize:FSCalendarStandardHeaderTextSize];
         
@@ -62,12 +63,17 @@
         _subtitleColors[@(FSCalendarCellStatePlaceholder)] = [UIColor lightGrayColor];
         _subtitleColors[@(FSCalendarCellStateToday)]       = [UIColor whiteColor];
         
+        _eventCountColor = [UIColor whiteColor];
+        _eventCountBackgroundColor = FSCalendarStandardEventDotColor;
+        
         _borderColors[@(FSCalendarCellStateSelected)] = [UIColor clearColor];
         _borderColors[@(FSCalendarCellStateNormal)] = [UIColor clearColor];
         
         _borderRadius = 1.0;
         _eventDefaultColor = FSCalendarStandardEventDotColor;
         _eventSelectionColor = FSCalendarStandardEventDotColor;
+        
+        _eventStyle = FSCalendarEventDotStyle;
         
         _borderColors = [NSMutableDictionary dictionaryWithCapacity:2];
         
@@ -91,6 +97,13 @@
 {
     if (![_subtitleFont isEqual:subtitleFont]) {
         _subtitleFont = subtitleFont;
+        [self.calendar configureAppearance];
+    }
+}
+
+- (void)setEventCountFont:(UIFont *)eventCountFont{
+    if(![_eventCountFont isEqual:eventCountFont]){
+        _eventCountFont = eventCountFont;
         [self.calendar configureAppearance];
     }
 }
@@ -127,6 +140,14 @@
     }
 }
 
+- (void)setEventOffset:(CGPoint)eventOffset
+{
+    if (!CGPointEqualToPoint(_eventCountOffset, eventOffset)) {
+        _eventCountOffset = eventOffset;
+        [_calendar.visibleCells makeObjectsPerformSelector:@selector(setNeedsLayout)];
+    }
+}
+
 - (void)setImageOffset:(CGPoint)imageOffset
 {
     if (!CGPointEqualToPoint(_imageOffset, imageOffset)) {
@@ -135,10 +156,10 @@
     }
 }
 
-- (void)setEventOffset:(CGPoint)eventOffset
+- (void)setEventCountOffset:(CGPoint)eventCountOffset
 {
-    if (!CGPointEqualToPoint(_eventOffset, eventOffset)) {
-        _eventOffset = eventOffset;
+    if (!CGPointEqualToPoint(_eventCountOffset, eventCountOffset)) {
+        _eventCountOffset = eventCountOffset;
         [_calendar.visibleCells makeObjectsPerformSelector:@selector(setNeedsLayout)];
     }
 }
@@ -338,6 +359,20 @@
     return _backgroundColors[@(FSCalendarCellStateToday|FSCalendarCellStateSelected)];
 }
 
+- (void)setEventCountColor:(UIColor *)eventCountColor{
+    if(![_eventCountColor isEqual:eventCountColor]){
+        _eventCountColor = eventCountColor;
+        [self.calendar configureAppearance];
+    }
+}
+
+- (void)setEventCountBackgroundColor:(UIColor *)eventCountBackgroundColor{
+    if(![_eventCountBackgroundColor isEqual:eventCountBackgroundColor]){
+        _eventCountBackgroundColor = eventCountBackgroundColor;
+        [self.calendar configureAppearance];
+    }
+}
+
 - (void)setEventDefaultColor:(UIColor *)eventDefaultColor
 {
     if (![_eventDefaultColor isEqual:eventDefaultColor]) {
@@ -431,6 +466,13 @@
     if (_separators != separators) {
         _separators = separators;
         [_calendar.collectionView.collectionViewLayout invalidateLayout];
+    }
+}
+
+- (void)setEventStyle:(FSCalendarEventStyle)eventStyle{
+    if(_eventStyle != eventStyle){
+        _eventStyle = eventStyle;
+        [self.calendar configureAppearance];
     }
 }
 

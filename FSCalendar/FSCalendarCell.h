@@ -27,6 +27,10 @@ typedef NS_ENUM(NSUInteger, FSCalendarMonthPosition);
  */
 @property (weak, nonatomic) UILabel  *subtitleLabel;
 
+/**
+ The event count label of the cell
+ */
+@property (weak, nonatomic) UILabel  *eventCountLabel;
 
 /**
  The shape layer of the cell
@@ -74,6 +78,10 @@ typedef NS_ENUM(NSUInteger, FSCalendarMonthPosition);
 @property (assign, nonatomic) CGPoint preferredSubtitleOffset;
 @property (assign, nonatomic) CGPoint preferredImageOffset;
 @property (assign, nonatomic) CGPoint preferredEventOffset;
+@property (assign, nonatomic) CGPoint preferredEventCountOffset;
+
+@property (strong, nonatomic) UIColor *preferredEventCountColor;
+@property (strong, nonatomic) UIColor *preferredEventCountbackgroundColor;
 
 @property (strong, nonatomic) NSArray<UIColor *> *preferredEventDefaultColors;
 @property (strong, nonatomic) NSArray<UIColor *> *preferredEventSelectionColors;

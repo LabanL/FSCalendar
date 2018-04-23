@@ -12,6 +12,11 @@
 
 @class FSCalendar;
 
+typedef NS_ENUM(NSInteger, FSCalendarEventStyle) {
+    FSCalendarEventCountStyle = 0,
+    FSCalendarEventDotStyle = 1
+};
+
 typedef NS_ENUM(NSInteger, FSCalendarCellState) {
     FSCalendarCellStateNormal      = 0,
     FSCalendarCellStateSelected    = 1,
@@ -54,6 +59,11 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
 @property (strong, nonatomic) UIFont   *subtitleFont;
 
 /**
+ * The font of the event count text.
+ */
+@property (strong, nonatomic) UIFont   *eventCountFont;
+
+/**
  * The font of the weekday text.
  */
 @property (strong, nonatomic) UIFont   *weekdayFont;
@@ -72,6 +82,11 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
  * The offset of the day text from default position.
  */
 @property (assign, nonatomic) CGPoint  subtitleOffset;
+
+/**
+ * The offset of the event count text from default position.
+ */
+@property (assign, nonatomic) CGPoint  eventCountOffset;
 
 /**
  * The offset of the event dots from default position.
@@ -164,6 +179,16 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
 @property (strong, nonatomic) UIColor  *subtitleWeekendColor;
 
 /**
+ * The event count text color.
+ */
+@property (strong, nonatomic) UIColor *eventCountColor;
+
+/**
+ * The event count background color.
+ */
+@property (strong, nonatomic) UIColor *eventCountBackgroundColor;
+
+/**
  * The fill color of the shape for selected state.
  */
 @property (strong, nonatomic) UIColor  *selectionColor;
@@ -205,6 +230,12 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
  *
  */
 @property (assign, nonatomic) FSCalendarSeparators separators;
+
+/**
+ * The event style for calendar.
+ *
+ */
+@property (assign, nonatomic) FSCalendarEventStyle eventStyle;
 
 #if TARGET_INTERFACE_BUILDER
 
